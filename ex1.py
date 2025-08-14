@@ -1,4 +1,4 @@
 import streamlit as st
-st.title('1.')
+st.title('우왕.')
 st.write('hello everyone..')
-st.title('2.')
+st.title('재밌당.')
