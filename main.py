@@ -1,8 +1,4 @@
-#music_data = {
-    "INTJ": [("Numb", "Linkin Park", "https://youtu.be/kXYiU_JCYtU")],
-    "ENFP": [("Happy", "Pharrell Williams", "https://youtu.be/ZbZSe6N_BXs")],
-    "ISTP": [("Believer", "Imagine Dragons", "https://youtu.be/7wtfhZwyrcc")]}
-    # ... 나머지 MBTI도 추가
+
 import streamlit as st
 
 # 앱 제목
