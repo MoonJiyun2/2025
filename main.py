@@ -27,7 +27,4 @@ music_data = {
     ],
     "INFP": [
         ("Lost Stars", "Adam Levine", "https://youtu.be/cL4uhaQ58Rk", "https://img.youtube.com/vi/cL4uhaQ58Rk/0.jpg"),
-        ("Let Her Go", "Passenger", "https://youtu.be/RBumgq5yVrA", "https://img.youtube.com/vi/RBumgq5yVrA/0.jpg")
-    ],
-    "ENFJ": [
-        ("Hall of Fame", "The
+        ("Let Her Go", "Passenger", "https://youtu.be/RBumgq5yVrA", "https://img.youtube.com/vi/RB
