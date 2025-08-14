@@ -30,5 +30,4 @@ music_data = {
         ("Let Her Go", "Passenger", "https://youtu.be/RBumgq5yVrA", "https://img.youtube.com/vi/RBumgq5yVrA/0.jpg")
     ],
     "ENFJ": [
-        ("Hall of Fame", "The Script ft. will.i.am", "https://youtu.be/mk48xRzuNvA", "https://img.youtube.com/vi/mk48xRzuNvA/0.jpg"),
-        ("Counting Stars", "OneRepubl
+        ("Hall of Fame", "The
