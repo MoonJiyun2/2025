@@ -22,7 +22,7 @@ st.markdown(
 # -------------------
 # 제목
 # -------------------
-st.title("멘델 유전법칙 - 초파리 눈 색깔 시뮬레이션 🪰")
+st.title("토머스 모건의 초파리 적안/백안 교배 실험 시뮬레이션 🪰")
 
 # -------------------
 # 유전자 안내
@@ -65,7 +65,7 @@ df_square = pd.DataFrame(
     columns=[f"정자: {sperms[0]}", f"정자: {sperms[1]}"]
 )
 
-st.header("2. 펀넷 스퀘어 🧬")
+st.header("2. 퍼넷 스퀘어 🧬")
 st.table(df_square)
 
 # -------------------
@@ -113,31 +113,14 @@ st.header("3. 이론적 성별별 표현형 비율 📊")
 st.write(f"암컷 ♀: 백안 {female_ratio['백안 ♀']:.1f}%, 적안 {female_ratio['적안 ♀']:.1f}%")
 st.write(f"수컷 ♂: 백안 {male_ratio['백안 ♂']:.1f}%, 적안 {male_ratio['적안 ♂']:.1f}%")
 
-# -------------------
-# 자손 시뮬레이션
-# -------------------
-st.header("4. 자손 생성 시뮬레이션 🎲")
-simulate = st.radio("자손을 시뮬레이션 하시겠습니까? 🐞", ["아니오", "예"])
-N = st.slider("시뮬레이션할 자손 수 (N)", min_value=10, max_value=5000, value=100, step=10)
 
-if simulate == "예":
-    sim_offspring = get_offspring(sperms, eggs, N)
-    female_sim = [p for p in sim_offspring if "♀" in p]
-    male_sim = [p for p in sim_offspring if "♂" in p]
-
-    female_sim_ratio = calc_ratio(female_sim, ["적안 ♀","백안 ♀"])
-    male_sim_ratio = calc_ratio(male_sim, ["적안 ♂","백안 ♂"])
-
-    st.subheader(f"시뮬레이션 결과 (N={N}) 🐜")
-    st.write(f"암컷 ♀: 백안 {female_sim_ratio['백안 ♀']:.1f}%, 적안 {female_sim_ratio['적안 ♀']:.1f}%")
-    st.write(f"수컷 ♂: 백안 {male_sim_ratio['백안 ♂']:.1f}%, 적안 {male_sim_ratio['적안 ♂']:.1f}%")
 
 # -------------------
 # 과학적 설명
 # -------------------
-st.header("5. 과학적 설명 🧪")
+st.header("5. 배경지식 🧪")
 st.markdown("""
-- **토마스 헌트 모건의 초파리 실험 🪰**
+- **토머스 헌트 모건의 초파리 실험 🪰**
   
 - **배경:**  
   - 모건은 초파리(Drosophila melanogaster)를 이용하여 동물에서 유전법칙을 연구함  
