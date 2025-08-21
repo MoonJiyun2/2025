@@ -1,3 +1,10 @@
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+# 🔥 한글 폰트 설정
+plt.rc('font', family='NanumGothic')   # Streamlit Cloud (Linux 환경)
+plt.rc('axes', unicode_minus=False)   # 마이너스 깨짐 방지
+
 import streamlit as st
 import pandas as pd
 import random
