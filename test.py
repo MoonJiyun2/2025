@@ -1,6 +1,3 @@
-
-
-
 import streamlit as st
 import pandas as pd
 import random
@@ -52,6 +49,8 @@ def phenotype(genotype):
         return "적안 ♂"
     elif genotype == "XᵍY":
         return "백안 ♂"
+    else:
+        return "알 수 없음"
 
 # -------------------
 # 난자 / 정자 생성
@@ -87,19 +86,27 @@ st.table(df_square)
 all_genos = [square[0][0], square[0][1], square[1][0], square[1][1]]
 phenotypes_list = [phenotype(g) for g in all_genos]
 
+# 성별별 분류
 female_phenos = [p for p in phenotypes_list if "♀" in p]
 male_phenos = [p for p in phenotypes_list if "♂" in p]
 
-female_counts = pd.Series(female_phenos).value_counts(normalize=True) * 100
-male_counts = pd.Series(male_phenos).value_counts(normalize=True) * 100
+# 비율 계산
+def calc_ratio(lst, labels):
+    total = len(lst)
+    counts = {label: 0 for label in labels}
+    for item in lst:
+        if item in counts:
+            counts[item] += 1
+    # 비율 %
+    ratio = {k: (v/total*100 if total>0 else 0) for k,v in counts.items()}
+    return ratio
 
-# 없는 값 채우기
-female_counts = female_counts.reindex(["적안 ♀","백안 ♀"], fill_value=0)
-male_counts = male_counts.reindex(["적안 ♂","백안 ♂"], fill_value=0)
+female_ratio = calc_ratio(female_phenos, ["적안 ♀","백안 ♀"])
+male_ratio = calc_ratio(male_phenos, ["적안 ♂","백안 ♂"])
 
 st.header("3. 이론적 성별별 표현형 비율 📊")
-st.write(f"암컷 ♀: 백안 {female_counts['백안 ♀']:.1f}%, 적안 {female_counts['적안 ♀']:.1f}%")
-st.write(f"수컷 ♂: 백안 {male_counts['백안 ♂']:.1f}%, 적안 {male_counts['적안 ♂']:.1f}%")
+st.write(f"암컷 ♀: 백안 {female_ratio['백안 ♀']:.1f}%, 적안 {female_ratio['적안 ♀']:.1f}%")
+st.write(f"수컷 ♂: 백안 {male_ratio['백안 ♂']:.1f}%, 적안 {male_ratio['적안 ♂']:.1f}%")
 
 # -------------------
 # 자손 시뮬레이션
@@ -109,26 +116,18 @@ simulate = st.radio("자손을 시뮬레이션 하시겠습니까? 🐞", ["아�
 N = st.slider("시뮬레이션할 자손 수 (N)", min_value=10, max_value=5000, value=100, step=10)
 
 if simulate == "예":
-    sim_genos = []
-    for _ in range(N):
-        e = random.choice(eggs)
-        s = random.choice(sperms)
-        sim_genos.append(e + s)
-
+    sim_genos = [random.choice(eggs)+random.choice(sperms) for _ in range(N)]
     sim_phenos = [phenotype(g) for g in sim_genos]
-
+    
     female_sim = [p for p in sim_phenos if "♀" in p]
     male_sim = [p for p in sim_phenos if "♂" in p]
 
-    female_sim_counts = pd.Series(female_sim).value_counts(normalize=True) * 100
-    male_sim_counts = pd.Series(male_sim).value_counts(normalize=True) * 100
-
-    female_sim_counts = female_sim_counts.reindex(["적안 ♀","백안 ♀"], fill_value=0)
-    male_sim_counts = male_sim_counts.reindex(["적안 ♂","백안 ♂"], fill_value=0)
+    female_sim_ratio = calc_ratio(female_sim, ["적안 ♀","백안 ♀"])
+    male_sim_ratio = calc_ratio(male_sim, ["적안 ♂","백안 ♂"])
 
     st.subheader(f"시뮬레이션 결과 (N={N}) 🐜")
-    st.write(f"암컷 ♀: 백안 {female_sim_counts['백안 ♀']:.1f}%, 적안 {female_sim_counts['적안 ♀']:.1f}%")
-    st.write(f"수컷 ♂: 백안 {male_sim_counts['백안 ♂']:.1f}%, 적안 {male_sim_counts['적안 ♂']:.1f}%")
+    st.write(f"암컷 ♀: 백안 {female_sim_ratio['백안 ♀']:.1f}%, 적안 {female_sim_ratio['적안 ♀']:.1f}%")
+    st.write(f"수컷 ♂: 백안 {male_sim_ratio['백안 ♂']:.1f}%, 적안 {male_sim_ratio['적안 ♂']:.1f}%")
 
 # -------------------
 # 과학적 설명
@@ -165,5 +164,3 @@ st.markdown("""
   - 성별과 유전 형질의 관계를 최초로 증명  
   - 멘델 법칙을 **염색체 수준에서 확인**
 """)
-
-
