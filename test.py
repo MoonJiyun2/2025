@@ -58,6 +58,11 @@ st.markdown("""
 # 부모 선택
 # -------------------
 st.header("1. 부모 염색체 선택")
+st.markdown("""
+### 🧬 유전자 안내
+- **적안 (Red, Xᴳ)** : 우성 유전자  
+- **백안 (White, Xᵍ)** : 열성 유전자
+""")
 
 father = st.selectbox("아버지 ♂:", ["XᴳY", "XᵍY"])
 mother = st.selectbox("어머니 ♀:", ["XᴳXᴳ", "XᴳXᵍ", "XᵍXᵍ"])
