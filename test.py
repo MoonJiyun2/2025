@@ -1,3 +1,6 @@
+
+
+
 import streamlit as st
 import pandas as pd
 import random
@@ -38,21 +41,6 @@ father = st.selectbox("아버지 ♂:", ["XᴳY", "XᵍY"])
 mother = st.selectbox("어머니 ♀:", ["XᴳXᴳ", "XᴳXᵍ", "XᵍXᵍ"])
 
 # -------------------
-# 표현형 판별 함수
-# -------------------
-def phenotype(genotype):
-    if genotype in ["XᴳXᴳ", "XᴳXᵍ"]:
-        return "적안 ♀"
-    elif genotype == "XᵍXᵍ":
-        return "백안 ♀"
-    elif genotype == "XᴳY":
-        return "적안 ♂"
-    elif genotype == "XᵍY":
-        return "백안 ♂"
-    else:
-        return "알 수 없음"
-
-# -------------------
 # 난자 / 정자 생성
 # -------------------
 if mother == "XᴳXᴳ":
@@ -81,28 +69,45 @@ st.header("2. 펀넷 스퀘어 🧬")
 st.table(df_square)
 
 # -------------------
-# 성별별 표현형 비율 계산
+# 자손 성별과 표현형 계산 함수
 # -------------------
-all_genos = [square[0][0], square[0][1], square[1][0], square[1][1]]
-phenotypes_list = [phenotype(g) for g in all_genos]
+def get_offspring(father_sperm, mother_egg, N):
+    offspring = []
+    for _ in range(N):
+        egg = random.choice(mother_egg)
+        sperm = random.choice(father_sperm)
+        child_genotype = egg + sperm
+        # 성별 판정
+        sex = "♀" if (egg == "Xᴳ" or egg == "Xᵍ") and sperm == "Xᴳ" or sperm == "Xᵍ" else "♂"
+        # 표현형 판정
+        if sex == "♀":
+            pheno = "적안 ♀" if "Xᴳ" in child_genotype else "백안 ♀"
+        else:
+            pheno = "적안 ♂" if "Xᴳ" in child_genotype else "백안 ♂"
+        offspring.append(pheno)
+    return offspring
 
-# 성별별 분류
-female_phenos = [p for p in phenotypes_list if "♀" in p]
-male_phenos = [p for p in phenotypes_list if "♂" in p]
-
-# 비율 계산
+# -------------------
+# 성별별 비율 계산 함수
+# -------------------
 def calc_ratio(lst, labels):
     total = len(lst)
     counts = {label: 0 for label in labels}
     for item in lst:
         if item in counts:
             counts[item] += 1
-    # 비율 %
     ratio = {k: (v/total*100 if total>0 else 0) for k,v in counts.items()}
     return ratio
 
-female_ratio = calc_ratio(female_phenos, ["적안 ♀","백안 ♀"])
-male_ratio = calc_ratio(male_phenos, ["적안 ♂","백안 ♂"])
+# -------------------
+# 이론적 4개 조합 시 비율 계산
+# -------------------
+theory_offspring = get_offspring(sperms, eggs, 4)
+female_theory = [p for p in theory_offspring if "♀" in p]
+male_theory = [p for p in theory_offspring if "♂" in p]
+
+female_ratio = calc_ratio(female_theory, ["적안 ♀","백안 ♀"])
+male_ratio = calc_ratio(male_theory, ["적안 ♂","백안 ♂"])
 
 st.header("3. 이론적 성별별 표현형 비율 📊")
 st.write(f"암컷 ♀: 백안 {female_ratio['백안 ♀']:.1f}%, 적안 {female_ratio['적안 ♀']:.1f}%")
@@ -116,11 +121,9 @@ simulate = st.radio("자손을 시뮬레이션 하시겠습니까? 🐞", ["아�
 N = st.slider("시뮬레이션할 자손 수 (N)", min_value=10, max_value=5000, value=100, step=10)
 
 if simulate == "예":
-    sim_genos = [random.choice(eggs)+random.choice(sperms) for _ in range(N)]
-    sim_phenos = [phenotype(g) for g in sim_genos]
-    
-    female_sim = [p for p in sim_phenos if "♀" in p]
-    male_sim = [p for p in sim_phenos if "♂" in p]
+    sim_offspring = get_offspring(sperms, eggs, N)
+    female_sim = [p for p in sim_offspring if "♀" in p]
+    male_sim = [p for p in sim_offspring if "♂" in p]
 
     female_sim_ratio = calc_ratio(female_sim, ["적안 ♀","백안 ♀"])
     male_sim_ratio = calc_ratio(male_sim, ["적안 ♂","백안 ♂"])
