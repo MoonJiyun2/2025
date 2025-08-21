@@ -3,7 +3,7 @@ import pandas as pd
 import random
 import matplotlib.pyplot as plt
 
-st.title("멘델의 유전법칙 - 초파리의 적안/백안 교배 실험 시뮬레이션")
+st.title("모건의 초파리 적안/백안 교배 실험 시뮬레이션")
 
 # -------------------
 # 부모 선택
