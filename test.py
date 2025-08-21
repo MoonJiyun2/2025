@@ -100,7 +100,7 @@ df_square = pd.DataFrame(
     columns=[f"정자: {sperms[0]}", f"정자: {sperms[1]}"]
 )
 
-st.header("2. 펀넷 스퀘어 🧬")
+st.header("2. 퍼퍼넷 스퀘어 🧬")
 st.table(df_square)
 
 # -------------------
